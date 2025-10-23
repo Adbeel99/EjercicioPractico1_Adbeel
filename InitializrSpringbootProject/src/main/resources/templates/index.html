@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+    <header th:replace="fragments/navbar :: navbar"></header>
+
+    <main class="contenido">
+        <h1>Bienvenido a la Biblioteca Online</h1>
+        <p>Encuentra tus libros favoritos y comparte tus sugerencias con nosotros.</p>
+
+        <section>
+            <h2>Nuevo libro destacado</h2>
+            <div th:if="${#lists.isEmpty(libros)}">
+                <p>No hay libros disponibles por el momento.</p>
+            </div>
+            <div th:if="${!#lists.isEmpty(libros)}">
+                <h3 th:text="${libros.get(0).titulo}"></h3>
+                <p th:text="${libros.get(0).descripcion}"></p>
+                <small th:text="'Autor: ' + ${libros.get(0).autor}"></small>
+            </div>
+        </section>
+
+        <section class="video">
+            <h3>Importancia de la lectura</h3>
+            <iframe width="560" height="315" 
+                    src="https://www.youtube.com/embed/pah1C4iBXdU"
+                    title="La lectura cambia vidas"
+                    frameborder="0" allowfullscreen></iframe>
+        </section>
+    </main>
+
+    <footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

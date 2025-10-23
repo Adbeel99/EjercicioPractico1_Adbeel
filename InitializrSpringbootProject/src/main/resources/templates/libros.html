@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<header th:replace="fragments/navbar :: navbar"></header>
+
+<main class="contenido">
+    <h1>Gestión de Libros</h1>
+    <a th:href="@{/libros/nuevo}" class="btn">Agregar Libro</a>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Título</th><th>Autor</th><th>Categoría</th><th>Precio</th><th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="libro : ${libros}">
+            <td th:text="${libro.titulo}"></td>
+            <td th:text="${libro.autor}"></td>
+            <td th:text="${libro.categoria.nombre}"></td>
+            <td th:text="${libro.precio}"></td>
+            <td>
+                <a th:href="@{/libros/editar/{id}(id=${libro.id})}">Editar</a> |
+                <a th:href="@{/libros/eliminar/{id}(id=${libro.id})}" 
+                   onclick="return confirm('¿Deseas eliminar este libro?')">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>

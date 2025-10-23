@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header"></head>
+<body>
+<header th:replace="fragments/navbar :: navbar"></header>
+
+<main class="contenido">
+    <h1>Formulario de Sugerencias y Quejas</h1>
+
+    <form th:action="@{/quejas/guardar}" th:object="${queja}" method="post">
+        <label>Nombre:</label>
+        <input type="text" th:field="*{nombreCliente}" required>
+
+        <label>Email:</label>
+        <input type="email" th:field="*{email}" required>
+
+        <label>Teléfono:</label>
+        <input type="text" th:field="*{telefono}">
+
+        <label>Tipo:</label>
+        <select th:field="*{tipo}">
+            <option th:each="t : ${tipos}" th:value="${t}" th:text="${t}"></option>
+        </select>
+
+        <label>Asunto:</label>
+        <input type="text" th:field="*{asunto}">
+
+        <label>Mensaje:</label>
+        <textarea th:field="*{mensaje}" required></textarea>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <h2>Mensajes Recibidos</h2>
+    <table>
+        <thead><tr><th>Nombre</th><th>Tipo</th><th>Asunto</th><th>Tratado</th><th>Acciones</th></tr></thead>
+        <tbody>
+        <tr th:each="q : ${quejas}">
+            <td th:text="${q.nombreCliente}"></td>
+            <td th:text="${q.tipo}"></td>
+            <td th:text="${q.asunto}"></td>
+            <td th:text="${q.tratado ? 'Sí' : 'No'}"></td>
+            <td>
+                <a th:href="@{/quejas/tratar/{id}(id=${q.id})}">Marcar Tratado</a> |
+                <a th:href="@{/quejas/eliminar/{id}(id=${q.id})}">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</main>
+
+<footer th:replace="fragments/footer :: footer"></footer>
+</body>
+</html>
+
