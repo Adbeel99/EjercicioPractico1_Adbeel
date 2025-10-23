@@ -11,11 +11,13 @@ import com.biblioteca.repository.LibroRepository;
 import com.biblioteca.service.LibroService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class LibroServiceImpl implements LibroService {
 
     @Autowired
@@ -33,7 +35,24 @@ public class LibroServiceImpl implements LibroService {
 
     @Override
     public Libro guardarLibro(Libro libro) {
-        return libroRepository.save(libro);
+        if (libro.getId() != null) {
+            return libroRepository.findById(libro.getId())
+                .map(libroExistente -> {
+                    libroExistente.setTitulo(libro.getTitulo());
+                    libroExistente.setAutor(libro.getAutor());
+                    libroExistente.setIsbn(libro.getIsbn());
+                    libroExistente.setDescripcion(libro.getDescripcion());
+                    libroExistente.setCategoria(libro.getCategoria());
+                    libroExistente.setFechaPublicacion(libro.getFechaPublicacion());
+                    libroExistente.setDisponible(libro.getDisponible());
+                    libroExistente.setPrecio(libro.getPrecio());
+                    libroExistente.setUpdatedAt(java.time.LocalDateTime.now());
+                    return libroRepository.save(libroExistente);
+                })
+                .orElseThrow(() -> new RuntimeException("Libro no encontrado con id: " + libro.getId()));
+        } else {
+            return libroRepository.save(libro);
+        }
     }
 
     @Override

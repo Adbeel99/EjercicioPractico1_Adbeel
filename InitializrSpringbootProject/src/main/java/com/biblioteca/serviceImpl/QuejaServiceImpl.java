@@ -10,11 +10,13 @@ import com.biblioteca.repository.QuejaRepository;
 import com.biblioteca.service.QuejaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class QuejaServiceImpl implements QuejaService {
 
     @Autowired
@@ -32,7 +34,22 @@ public class QuejaServiceImpl implements QuejaService {
 
     @Override
     public Queja guardarQueja(Queja queja) {
-        return quejaRepository.save(queja);
+        if (queja.getId() != null) {
+            return quejaRepository.findById(queja.getId())
+                .map(quejaExistente -> {
+                    quejaExistente.setNombreCliente(queja.getNombreCliente());
+                    quejaExistente.setEmail(queja.getEmail());
+                    quejaExistente.setTelefono(queja.getTelefono());
+                    quejaExistente.setTipo(queja.getTipo());
+                    quejaExistente.setAsunto(queja.getAsunto());
+                    quejaExistente.setMensaje(queja.getMensaje());
+                    quejaExistente.setTratado(queja.getTratado());
+                    return quejaRepository.save(quejaExistente);
+                })
+                .orElseThrow(() -> new RuntimeException("Queja no encontrada con id: " + queja.getId()));
+        } else {
+            return quejaRepository.save(queja);
+        }
     }
 
     @Override
@@ -50,4 +67,3 @@ public class QuejaServiceImpl implements QuejaService {
         return quejaRepository.findByTratado(tratado);
     }
 }
-

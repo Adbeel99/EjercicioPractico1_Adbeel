@@ -12,6 +12,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this temp
     <h1 th:text="${categoria.id == null ? 'Nueva Categoría' : 'Editar Categoría'}"></h1>
 
     <form th:action="@{/categorias/guardar}" th:object="${categoria}" method="post">
+        <input type="hidden" th:field="*{id}">
         <label>Nombre:</label>
         <input type="text" th:field="*{nombre}" required>
 
