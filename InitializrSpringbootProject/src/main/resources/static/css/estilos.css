@@ -209,14 +209,60 @@ td a:last-child {
 }
 
 /* ===== SECCIÓN VIDEO ===== */
+/* ===== ESTILOS PARA VIDEO ===== */
 .video {
     text-align: center;
-    margin: 2rem 0;
+    margin: 3rem 0;
+    padding: 2rem;
+    background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.video h3 {
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+    font-size: 1.8rem;
 }
 
 .video iframe {
     border-radius: 10px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    border: 5px solid white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.video iframe:hover {
+    transform: scale(1.02);
+    box-shadow: 0 12px 35px rgba(0,0,0,0.2);
+}
+
+.video-descripcion {
+    margin-top: 1rem;
+    color: #6c757d;
+    font-style: italic;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Responsive para video */
+@media (max-width: 768px) {
+    .video iframe {
+        width: 100%;
+        height: 250px;
+    }
+    
+    .video {
+        padding: 1rem;
+        margin: 2rem 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .video iframe {
+        height: 200px;
+    }
 }
 
 /* ===== FOOTER ===== */
